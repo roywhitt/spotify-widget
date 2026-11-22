@@ -204,10 +204,12 @@ async function login(){
   store.set('verifier', v); store.set('state', st);
   const url = 'https://accounts.spotify.com/authorize?' + new URLSearchParams({ client_id: CLIENT, response_type:'code',
     redirect_uri: REDIRECT, scope: SCOPES, code_challenge_method:'S256', code_challenge: await challenge(v), state: st });
-  const w = window.open(url, 'spotify_login', 'width=480,height=720');
-  if (!w) location.href = url;          // pas de popup possible : on navigue directement
-  $('paste').classList.add('show');
-  $('ovP').textContent = 'Valide dans la fenêtre Spotify. Si elle ne se ferme pas toute seule, copie le code affiché et colle-le ici.';
+  // Le widget ne quitte jamais sa page : la connexion s'ouvre à côté (fenêtre ou navigateur)
+  if (framed || !window.open(url, 'spotify_login', 'width=480,height=720')) {
+    try { window.open(url, '_blank'); } catch(e) {}
+  }
+  $('paste').classList.add('show'); $('loginBtn').textContent = 'Rouvrir la connexion';
+  $('ovP').innerHTML = 'Valide sur la page Spotify qui vient de s\'ouvrir.<br>Elle t\'affichera un code : copie-le et colle-le juste en dessous, puis clique sur OK.';
 }
 addEventListener('message', async e => {
   if (e.origin !== location.origin || !e.data || e.data.type !== 'sp_code') return;
