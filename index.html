@@ -23,23 +23,42 @@ section{min-width:0;min-height:0;position:relative}
 #info{display:flex;flex-direction:column;padding:.9em 1.2em .9em 1.6em}
 .hov{opacity:0;transition:opacity .4s}
 #app:hover .hov{opacity:1}
+#volTxt.flash{opacity:1}
 
 #head{display:flex;align-items:center;gap:.8em;min-height:1.4em}
 #dot{width:.5em;height:.5em;border-radius:50%;border:1px solid var(--mute);flex:none;transition:all .4s}
-#dot.on{background:var(--acc);border-color:var(--acc);box-shadow:0 0 .8em var(--acc)}
-#dev{font-size:.78em;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#libBtn{margin-left:auto;width:1.5em;height:1.5em;display:flex;align-items:center;justify-content:center;opacity:.55;transition:opacity .3s}
-#libBtn:hover{opacity:1}
+#dot.on{background:var(--acc);border-color:var(--acc);box-shadow:0 0 .8em var(--acc);animation:beat 2.4s ease-in-out infinite}
+@keyframes beat{0%,100%{opacity:1;box-shadow:0 0 .8em var(--acc)}50%{opacity:.45;box-shadow:0 0 .2em var(--acc)}}
+#dev{font-size:.78em;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:.5em;transition:color .3s;max-width:70%}
+#dev:hover,#dev.open{color:var(--fg)}
+#dev svg{width:.8em;height:.8em;flex:none;transition:transform .3s}
+#dev.open svg{transform:rotate(180deg)}
+#volTxt{font-size:.78em;letter-spacing:.14em;color:var(--mute);white-space:nowrap;cursor:ns-resize}
+#devMenu{position:absolute;z-index:5;top:2.6em;left:1.6em;min-width:15em;max-width:calc(100% - 2.8em);padding:.4em 0;background:rgba(28,28,28,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--ln);border-radius:.6em;opacity:0;transform:translateY(-.4em);pointer-events:none;transition:opacity .25s,transform .25s}
+#devMenu.open{opacity:1;transform:none;pointer-events:auto}
+#devMenu .dv{display:flex;align-items:center;gap:.9em;width:100%;padding:.65em 1.1em;text-align:left;opacity:.75;transition:opacity .2s,background .2s}
+#devMenu .dv:hover{opacity:1;background:rgba(242,239,233,.05)}
+#devMenu .dv.act{opacity:1;color:var(--acc)}
+#devMenu .dv svg{width:1.15em;height:1.15em;flex:none}
+#devMenu .dv small{display:block;color:var(--mute);font-size:.8em;margin-top:.15em}
+#devMenu .note{padding:.6em 1.1em}
+#libBtn{width:1.5em;height:1.5em;display:flex;align-items:center;justify-content:center;opacity:.6;transition:opacity .3s,transform .3s}
+#libBtn:hover{opacity:1;transform:scale(1.15)}
 .grid4{width:.95em;height:.95em;display:grid;grid-template-columns:1fr 1fr;gap:2px}
 .grid4 i{background:var(--fg)}
 
 #mid{margin:auto 0}
 #title{font-size:2.1em;font-weight:500;letter-spacing:-.025em;line-height:1.12;padding-bottom:.06em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-#artist{font-size:.95em;color:var(--mute);margin-top:.45em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#artist{font-size:.98em;font-weight:500;color:rgba(242,239,233,.68);margin-top:.45em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-#meter{height:1.5em;display:flex;gap:2px;cursor:pointer;align-items:stretch}
-#meter span{flex:1;background:var(--fg);opacity:.16;transition:opacity .3s}
+#foot{position:relative}
+#meter{height:1.5em;display:flex;gap:2px;cursor:pointer;align-items:stretch;position:relative}
+#meter span{flex:1;background:var(--fg);opacity:.16;transition:opacity .25s;transform-origin:50% 100%;will-change:transform}
 #meter span.on{opacity:.9}
+#meter span.pre{opacity:.42}
+#meter span.head{opacity:1;background:var(--acc)}
+#hoverT{position:absolute;bottom:calc(100% + 1.4em);transform:translateX(-50%);font-size:.78em;letter-spacing:.06em;font-variant-numeric:tabular-nums;color:var(--fg);padding:.25em .55em;border:1px solid var(--ln);border-radius:.4em;background:rgba(28,28,28,.7);opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+#hoverT.show{opacity:1}
 #row2{display:flex;align-items:center;gap:1em;margin-top:.75em;font-variant-numeric:tabular-nums}
 #tm,#dur{font-size:.85em;color:var(--mute);letter-spacing:.04em;min-width:3.2em}
 #tm{color:var(--fg)}
@@ -47,14 +66,23 @@ section{min-width:0;min-height:0;position:relative}
 #ctrls{display:flex;align-items:center;gap:.9em;margin:0 auto}
 #ctrls>button:not(.sw){width:1.35em;height:1.35em;opacity:.6;transition:opacity .3s}
 #ctrls>button:hover{opacity:1}
+#ctrls>button:not(.sw){transition:opacity .3s,transform .3s}
+#prev:hover{transform:translateX(-.15em)}
+#next:hover{transform:translateX(.15em)}
 #ctrls svg{width:100%;height:100%;display:block}
-.sw{width:3.2em;height:1.6em;border:1px solid var(--fg);border-radius:1em;position:relative;flex:none;transition:border-color .3s}
+.sw{width:3.2em;height:1.6em;border:1px solid var(--fg);border-radius:1em;position:relative;flex:none;transition:border-color .3s,transform .35s cubic-bezier(.3,.7,.2,1),box-shadow .35s}
+.sw:hover{transform:scale(1.1);box-shadow:0 0 0 .35em rgba(242,239,233,.06)}
+.sw.on:hover{box-shadow:0 0 0 .35em rgba(255,91,46,.12),0 0 1.2em rgba(255,91,46,.25)}
+.sw:active{transform:scale(.95)}
+.sw:hover::after{left:1.75em}
+.sw.on:hover::after{left:1.5em}
 .sw::before{content:"";position:absolute;left:.7em;top:50%;width:1px;height:.6em;background:var(--fg);transform:translateY(-50%);opacity:.7}
 .sw::after{content:"";position:absolute;top:50%;left:2em;width:.45em;height:.45em;background:var(--fg);border-radius:50%;transform:translateY(-50%);transition:left .35s cubic-bezier(.3,.7,.2,1),background .3s}
 .sw.on::after{left:1.25em;background:var(--acc)}
 .sw.on{border-color:var(--acc)}
 #extra{display:flex;align-items:center;gap:.8em}
-#sh{width:1.25em;height:1.25em;opacity:.5}
+#sh{width:1.25em;height:1.25em;opacity:.45;transition:opacity .3s}
+#sh:hover{opacity:.9}
 #sh.on{opacity:1;color:var(--acc)}
 #sh svg{width:100%;height:100%;display:block}
 #knob{width:1.9em;height:1.9em;flex:none;cursor:ns-resize;touch-action:none}
@@ -106,10 +134,12 @@ section{min-width:0;min-height:0;position:relative}
 <div id="app">
   <section id="art"><canvas id="cover"></canvas></section>
   <section id="info">
-    <div id="head"><span id="dot"></span><span id="dev" class="hov">—</span>
-      <button id="libBtn" title="Bibliothèque"><span class="grid4"><i></i><i></i><i></i><i></i></span></button></div>
+    <div id="head"><span id="dot"></span><button id="dev" title="Choisir où sortir le son"><span id="devName">—</span><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 4.5l3 3 3-3"/></svg></button><span id="volTxt" class="hov"></span>
+</div>
     <div id="mid"><div id="title">Rien en lecture</div><div id="artist">Ouvre la bibliothèque pour lancer un son</div></div>
+    <div id="devMenu"></div>
     <div id="foot">
+      <div id="hoverT">00:00</div>
       <div id="meter"></div>
       <div id="row2">
         <span id="tm">00:00</span>
@@ -118,9 +148,9 @@ section{min-width:0;min-height:0;position:relative}
           <button class="sw" id="pp" title="Lecture / pause"></button>
           <button id="next" title="Suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 6v12M6 6l8 6-8 6z"/></svg></button>
         </div>
-        <span id="extra" class="hov">
+        <span id="extra">
           <button id="sh" title="Aléatoire"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 7h4l8 10h4M4 17h4l2.5-3M13.5 10L16 7h4M18 5l2 2-2 2M18 15l2 2-2 2"/></svg></button>
-          <svg id="knob" viewBox="0 0 60 60"><title>Volume</title></svg>
+          <button id="libBtn" title="Playlists et albums"><span class="grid4"><i></i><i></i><i></i><i></i></span></button>
         </span>
         <span id="dur">00:00</span>
       </div>
@@ -287,7 +317,8 @@ function render(){
   $('pp').classList.toggle('on', S.playing);
   $('sh').classList.toggle('on', !!S.shuffle);
   $('dot').classList.toggle('on', S.playing);
-  $('dev').textContent = (S.device ? S.device.name : '—') + (S.volume == null ? '' : '  ·  vol ' + S.volume);
+  $('devName').textContent = S.device ? S.device.name : 'Choisir un appareil';
+  $('volTxt').textContent = S.volume == null ? '' : '·  vol ' + S.volume;
   $('dur').textContent = fmt(S.duration);
   drawKnob();
   if (it){
@@ -304,34 +335,63 @@ function buildMeter(){
 }
 $('meter').onclick = e => { if (!S.duration) return; const r = e.currentTarget.getBoundingClientRect(), f = (e.clientX - r.left) / r.width;
   S.progress = f * S.duration; S.at = performance.now(); control('/me/player/seek?position_ms=' + Math.round(S.progress)); };
+let hov = null, scales = [];
+const meter = $('meter');
+meter.addEventListener('pointermove', e => { const r = meter.getBoundingClientRect(); hov = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+  const t = $('hoverT'); t.style.left = (e.clientX - r.left) + 'px'; t.textContent = fmt(hov * S.duration); t.classList.toggle('show', !!S.duration); });
+meter.addEventListener('pointerleave', () => { hov = null; $('hoverT').classList.remove('show'); });
 function tick(){
-  const p = Math.min(S.duration, S.progress + (S.playing ? performance.now() - S.at : 0));
+  const now = performance.now(), p = Math.min(S.duration, S.progress + (S.playing ? now - S.at : 0));
   $('tm').textContent = fmt(p);
-  const f = S.duration ? p / S.duration : 0, k = Math.round(f * bars.length);
-  bars.forEach((b,i) => b.classList.toggle('on', i < k));
+  const n = bars.length, f = S.duration ? p / S.duration : 0, k = Math.round(f * n), hi = hov == null ? null : hov * n;
+  if (scales.length !== n) scales = new Array(n).fill(1);
+  for (let i=0;i<n;i++){
+    const b = bars[i];
+    // effet loupe : les traits proches du curseur grandissent
+    const target = hi == null ? 1 : 1 + 1.25 * Math.exp(-Math.pow((i + .5 - hi) / 3.2, 2));
+    scales[i] += (target - scales[i]) * .25;
+    b.style.transform = Math.abs(scales[i] - 1) > .003 ? `scaleY(${scales[i].toFixed(3)})` : '';
+    const isHead = S.playing && i === k - 1;
+    b.classList.toggle('on', i < k && !isHead);
+    b.classList.toggle('head', isHead && Math.sin(now/260) > -.2);
+    b.classList.toggle('pre', hi != null && i >= k && i < hi);
+  }
 }
 $('pp').onclick = () => { S.playing = !S.playing; S.at = performance.now(); render(); if (!DEMO) control(S.playing ? '/me/player/play' : '/me/player/pause'); };
 $('sh').onclick = () => { S.shuffle = !S.shuffle; render(); if (!DEMO) control('/me/player/shuffle?state=' + S.shuffle); };
 $('next').onclick = () => { if (!DEMO) control('/me/player/next', 'POST'); };
 $('prev').onclick = () => { if (!DEMO) control('/me/player/previous', 'POST'); };
 
-// molette de volume
-function drawKnob(){
-  const v = S.volume == null ? 50 : S.volume, a0 = -225, a = a0 + v/100*270, rad = d => d*Math.PI/180;
-  const R = 22, cx = 30, cy = 30, arc = (r, from, to) => { const p1 = [cx + r*Math.cos(rad(from)), cy + r*Math.sin(rad(from))], p2 = [cx + r*Math.cos(rad(to)), cy + r*Math.sin(rad(to))];
-    return `M${p1[0]} ${p1[1]} A${r} ${r} 0 ${to-from>180?1:0} 1 ${p2[0]} ${p2[1]}`; };
-  const dot = [cx + (R-6)*Math.cos(rad(a)), cy + (R-6)*Math.sin(rad(a))];
-  $('knob').innerHTML = `<path d="${arc(27, a0, a0+270)}" stroke="rgba(242,239,233,.2)" stroke-width="2" fill="none"/><path d="${arc(27, a0, Math.max(a0+.5,a))}" stroke="var(--fg)" stroke-width="2" fill="none"/>
-    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--fg)" stroke-width="1.8"/><circle cx="${cx+1.2}" cy="${cy+1.6}" r="${R}" fill="none" stroke="rgba(242,239,233,.35)"/>
-    <circle cx="${dot[0]}" cy="${dot[1]}" r="2.6" fill="var(--fg)"/>`;
-}
-let volT, drag = null;
-$('knob').addEventListener('pointerdown', e => { drag = { y: e.clientY, v: S.volume ?? 50 }; e.target.setPointerCapture(e.pointerId); });
-$('knob').addEventListener('pointermove', e => { if (!drag) return; S.volume = Math.max(0, Math.min(100, Math.round(drag.v + (drag.y - e.clientY) * .8))); render();
-  clearTimeout(volT); volT = setTimeout(() => { if (!DEMO) control('/me/player/volume?volume_percent=' + S.volume); }, 250); });
-$('knob').addEventListener('pointerup', () => drag = null);
-$('knob').addEventListener('wheel', e => { e.preventDefault(); S.volume = Math.max(0, Math.min(100, (S.volume ?? 50) - Math.sign(e.deltaY)*4)); render();
+// volume : faire défiler la molette de la souris sur « vol »
+function drawKnob(){}
+let volT, flashT;
+$('volTxt').addEventListener('wheel', e => { e.preventDefault(); if (S.volume == null) return;
+  S.volume = Math.max(0, Math.min(100, S.volume - Math.sign(e.deltaY) * 3)); render();
+  $('volTxt').classList.add('flash'); clearTimeout(flashT); flashT = setTimeout(() => $('volTxt').classList.remove('flash'), 1200);
   clearTimeout(volT); volT = setTimeout(() => { if (!DEMO) control('/me/player/volume?volume_percent=' + S.volume); }, 300); }, {passive:false});
+
+// =================================================================
+//  Choix de l'appareil de sortie (comme « Connect » dans Spotify)
+// =================================================================
+const DEV_ICON = { Computer:'<path d="M4 6h16v10H4zM2 19h20"/>', Smartphone:'<path d="M8 3h8v18H8zM11 18h2"/>', Speaker:'<path d="M7 3h10v18H7z"/><circle cx="12" cy="14" r="3"/><circle cx="12" cy="7" r=".8"/>',
+  TV:'<path d="M3 5h18v12H3zM8 20h8"/>', CastAudio:'<path d="M7 3h10v18H7z"/><circle cx="12" cy="14" r="3"/>', AVR:'<path d="M3 8h18v8H3z"/><circle cx="8" cy="12" r="1.5"/>' };
+async function openDevices(){
+  const m = $('devMenu'), d = $('dev');
+  if (m.classList.contains('open')){ m.classList.remove('open'); d.classList.remove('open'); return; }
+  m.innerHTML = '<div class="note">Recherche des appareils…</div>'; m.classList.add('open'); d.classList.add('open');
+  let list = [];
+  try { list = DEMO ? [{id:'a',name:'MacBook Pro',type:'Computer',is_active:true,volume_percent:62},{id:'b',name:'Bose de Tom',type:'Speaker'},{id:'c',name:'[LG] webOS TV',type:'TV'}] : ((await api('/me/player/devices')) || {}).devices || []; } catch(e) {}
+  if (!list.length){ m.innerHTML = '<div class="note">Aucun appareil trouvé. Ouvre Spotify sur un appareil, ou allume ton enceinte.</div>'; return; }
+  m.innerHTML = list.map((x,i) => `<button class="dv${x.is_active ? ' act' : ''}" data-i="${i}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">${DEV_ICON[x.type] || DEV_ICON.Speaker}</svg><span>${esc(x.name)}<small>${x.is_active ? 'En cours' : esc(x.type === 'Computer' ? 'Ordinateur' : x.type === 'Smartphone' ? 'Téléphone' : x.type === 'Speaker' ? 'Enceinte' : x.type === 'TV' ? 'Télévision' : x.type)}</small></span></button>`).join('')
+    + '<div class="note">Ton enceinte n\'apparaît pas ? Lance-la une fois depuis l\'app Spotify.</div>';
+  m.querySelectorAll('.dv').forEach(b => b.onclick = async () => {
+    const x = list[+b.dataset.i]; m.classList.remove('open'); d.classList.remove('open');
+    S.device = x; render(); toast('Son envoyé sur ' + x.name);
+    if (!DEMO) control('/me/player', 'PUT', { device_ids: [x.id], play: S.playing });
+  });
+}
+$('dev').onclick = e => { e.stopPropagation(); openDevices(); };
+document.addEventListener('click', e => { if (!$('devMenu').contains(e.target)){ $('devMenu').classList.remove('open'); $('dev').classList.remove('open'); } });
 
 // =================================================================
 //  Pochette → grille de lignes (façon haut-parleur Braun)
@@ -370,7 +430,7 @@ function drawCover(t){
     const yc = (r+.5)*rowH, dy = yc - R;
     let half = ROUND ? Math.sqrt(Math.max(0, R*R - dy*dy)) : R;
     if (half < rowH*.6) continue;
-    const vib = S.playing ? 1 + .14*Math.sin(t*3.2 + r*.55) : 1;
+    const vib = S.playing ? 1 + .2*Math.sin(t*2.6 + r*.5) * (.7 + .3*Math.sin(t*.7)) : 1;
     if (!lum){ // pas encore d'image (ou image non lisible) : grille simple
       const th = rowH*.38*vib;
       cx.beginPath(); cx.roundRect(R-half+2, yc-th/2, half-gap-2, th, th/2); cx.roundRect(R+gap, yc-th/2, half-gap-2, th, th/2); cx.fill();
